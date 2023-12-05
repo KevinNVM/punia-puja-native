@@ -51,4 +51,30 @@
 
     </section>
 
+    <section class="relative bg-gray-900 text-white bg-center bg-cover"
+        style="background-image: url({{ url('/img/collage-bali.png') }})" id="footer">
+
+        <div class="absolute inset-0 bg-gradient-to-b from-gray-900 to-gray-900/20 ">
+            <div class="">
+                <div class="w-full bg-gray-900 mx-auto">
+                    <p>Made with ❤️ From 🕉️</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-screen-xl"></div>
+
+    </section>
+
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: "Perhatian!",
+                text: 'Website ini masih dalam tahap uji coba.\nPesan ini akan hilang jika website sudah berjalan normal',
+                timer: 3500,
+            })
+        })
+    </script>
+
 </x-guest-layout>
