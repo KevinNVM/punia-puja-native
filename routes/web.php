@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TxController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +15,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome')->with('flash', [
+        'banner' => 'Website ini masih dalam tahap uji coba.'
+    ]);
 });
+
+Route::get('tx/subtotal', [TxController::class, 'subtotal'])->name('tx.subtotal');
+Route::resource('tx', TxController::class);
 
 Route::middleware([
     'auth:sanctum',
@@ -25,4 +31,5 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
 });
