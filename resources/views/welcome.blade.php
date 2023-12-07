@@ -67,14 +67,16 @@
     </section>
 
 
-    <script>
-        window.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: "Perhatian!",
-                text: 'Website ini masih dalam tahap uji coba.\nPesan ini akan hilang jika website sudah berjalan normal',
-                timer: 3500,
+    @if (env('APP_ENV') == 'local')
+        <script>
+            window.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: "Perhatian!",
+                    text: 'Website ini masih dalam tahap uji coba.\nPesan ini akan hilang jika website sudah berjalan normal',
+                    timer: 3500,
+                })
             })
-        })
-    </script>
+        </script>
+    @endif
 
 </x-guest-layout>
