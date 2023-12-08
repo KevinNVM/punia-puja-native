@@ -19,6 +19,8 @@
             </form> --}}
             <div x-data="{ showAdvancedFilter: false }">
                 <button class="btn btn-sm" @click="showAdvancedFilter = !showAdvancedFilter">Filter</button>
+                <button class="btn btn-sm btn-ghost" wire:click="resetFilter">Reset Filter</button
+                    x-show="showAdvancedFilter">
                 <div class="p-2" x-show="showAdvancedFilter">
                     <div>
                         <label>Pilih hari</label>
@@ -32,9 +34,27 @@
                         <input type="date" wire:model.live="to">
                     </div>
                     <div class="divider"></div>
-                    <div>
-                        <label>Cari nama</label>
-                        <input type="text" wire:model.live="search">
+                    <div class="flex gap-4">
+                        <div>
+                            <label>Cari nama</label>
+                            <input class="w-full max-w-xs input input-bordered" type="text" wire:model.live="search">
+                        </div>
+                        <div>
+                            <label>Tipe</label>
+                            <select wire:model.live="type" class="select select-bordered w-full max-w-xs">
+                                <option value="">Semua</option>
+                                <option value="cash">Tunai</option>
+                                <option value="qris">QRIS</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Acara</label>
+                            <select wire:model.live="event" class="select select-bordered w-full max-w-xs">
+                                @foreach ($events as $key => $event)
+                                    <option value="{{ $key }}">{{ $event }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -74,9 +94,11 @@
                         <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                             Bukti
                         </th>
-                        <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                            Aksi
-                        </th>
+                        @role(['super-admin', 'admin'])
+                            <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                                Aksi
+                            </th>
+                        @endrole
                     </tr>
                 </thead>
 
@@ -121,9 +143,11 @@
                                 @endif
                             </td>
                             <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                                <a href="{{ route('tx.edit', $tx->id) }}" class="btn btn-sm btn-info">
-                                    Edit
-                                </a>
+                                @role(['super-admin', 'admin'])
+                                    <a href="{{ route('tx.edit', $tx->id) }}" class="btn btn-sm btn-info">
+                                        Edit
+                                    </a>
+                                @endrole
                             </td>
                         </tr>
                     @empty

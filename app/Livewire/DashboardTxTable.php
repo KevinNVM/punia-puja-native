@@ -8,15 +8,22 @@ use Livewire\Component;
 class DashboardTxTable extends Component
 {
 
-    public $from, $to, $date, $selectDate, $search;
+    public $from, $to, $date, $selectDate, $search, $type, $event;
 
     private function getTx()
     {
         $query = Tx::query();
 
         if ($this->search) {
-            $query->where('name', 'LIKE', "%$this->search%")
-                ->orWhere('type', $this->search);
+            $query->where('name', 'LIKE', "%$this->search%");
+        }
+
+        if ($this->type) {
+            $query->where('type', $this->type);
+        }
+
+        if ($this->event) {
+            $query->where('events', $this->event);
         }
 
         // Check if there is a request for 'select_date'
@@ -36,6 +43,17 @@ class DashboardTxTable extends Component
         // You can add more conditions or modify the column name as needed
 
         return $query;
+    }
+
+    public function resetFilter()
+    {
+        $this->from = null;
+        $this->to = null;
+        $this->date = null;
+        $this->selectDate = null;
+        $this->search = null;
+        $this->type = null;
+        $this->event = null;
     }
 
     public function render()
@@ -62,10 +80,17 @@ class DashboardTxTable extends Component
             'typeCashCount' => Tx::where('type', 'cash')->count()
         ];
 
+        $searchableEvents = Tx::pluck('events')
+            ->unique()
+            ->combine(Tx::pluck('events')
+                ->unique())
+            ->prepend('Semua', '')
+            ->toArray();
 
         return view('livewire.dashboard-tx-table', [
             'txes' => $tx,
-            'txSum' => (object) $txSum
+            'txSum' => (object) $txSum,
+            'events' => $searchableEvents
         ]);
     }
 }

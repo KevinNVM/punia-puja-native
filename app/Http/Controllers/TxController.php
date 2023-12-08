@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tx;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class TxController extends Controller
@@ -78,6 +79,7 @@ class TxController extends Controller
     public function update(Request $request, Tx $tx)
     {
 
+        Gate::authorize('admin');
 
         $validated = $request->validate([
             'type' => 'required',
@@ -115,7 +117,8 @@ class TxController extends Controller
      */
     public function destroy(Tx $tx)
     {
-        //
+        Gate::authorize('admin');
+
     }
 
     public function subtotal()

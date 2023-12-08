@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TxController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +16,8 @@ use App\Http\Controllers\TxController;
 */
 
 Route::get('/', function () {
-    return view('welcome')->with('flash', [
-        'banner' => 'Website ini masih dalam tahap uji coba.'
-    ]);
-});
+    return view('welcome');
+})->name('home');
 
 Route::get('tx/subtotal', [TxController::class, 'subtotal'])->name('tx.subtotal');
 Route::resource('tx', TxController::class);
@@ -31,5 +30,21 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::middleware(['auth', 'admin_only'])
+        ->name('admin.')
+        ->prefix('admin')
+        ->group(function () {
+            Route::get('/', [RoleController::class, 'index'])
+                ->name('index');
+            Route::get('/edit-roles/{user}', [RoleController::class, 'editRoles'])
+                ->name('edit-role');
+            Route::put('/edit-roles/{user}', [RoleController::class, 'updateUserRoles'])
+                ->name('update-user-role');
+            Route::post('/create-user', [RoleController::class, 'createNewUser'])
+                ->name('create-user');
+            Route::get('/delete-user/{user}', [RoleController::class, 'deleteUser'])
+                ->name('delete-user');
+        });
 
 });

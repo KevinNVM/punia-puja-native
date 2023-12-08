@@ -22,23 +22,23 @@ class PublicTxTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Type", "type")
+            Column::make("Jenis", "type")
                 ->sortable(),
-            Column::make("Name", "name")
+            Column::make("Nama", "name")
                 ->sortable()
                 ->searchable(),
-            Column::make("Phone", "phone")
+            Column::make("No Hp", "phone")
                 ->sortable(),
-            Column::make("Amount", "amount")
+            Column::make("Jumlah", "amount")
                 ->sortable()
                 ->format(fn($state) => 'Rp ' . number_format($state, 2, ',', '.'))
                 ->secondaryHeader(function ($rows) {
                     return 'Subtotal: Rp ' . number_format($rows->sum('amount'), 2, ',', '.');
                 }),
-            Column::make("Date", "date")
+            Column::make("Tanggal", "date")
                 ->sortable()
                 ->format(fn($state) => $state->format('d M Y')),
-            Column::make("Events", "events")
+            Column::make("Acara", "events")
                 ->sortable(),
             Column::make("Created at", "created_at")
                 ->sortable()
